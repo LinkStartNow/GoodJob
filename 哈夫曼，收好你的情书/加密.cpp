@@ -12,6 +12,8 @@ char* ans[N];
 
 int l;
 
+FILE* fi = fopen("e:/ç ´è¯‘ç .txt", "wt");
+
 typedef struct tree
 {
     char old;
@@ -79,14 +81,14 @@ void showmi(tp t)
     {
         tp l = t->l, r = t->r;
         if(t->old != '*')
-            printf("%c:%s\n", t->old, t->mi), key[t->old] = t->mi;
+            printf("%c:%s\n", t->old, t->mi), key[t->old] = t->mi, fprintf(fi, "%c:%s\n", t->old, t->mi);
         showmi(l), showmi(r);
     }
 }
 
 int main()
 {
-    printf("ÇëÊäÈëÒª¼ÓÃÜµÄÄÚÈİ£¨±ğ»Ø³µ£©:");
+    printf("è¯·è¾“å…¥è¦åŠ å¯†çš„å†…å®¹ï¼ˆåˆ«å›è½¦ï¼‰:");
     gets(s + 1);
     l = strlen(s + 1);
     run(i, 1, l) mp[s[i]] ++;
@@ -94,10 +96,14 @@ int main()
     build();
     yyds(q.top());
     tp t = q.top();
-    puts("ÃÜÂë±¾Îª£º");
+    puts("å¯†ç æœ¬ä¸ºï¼š");
     showmi(t);
+    fclose(fi);
+    fi = nullptr;
     puts("-------------------");
     run(i, 1, l) ans[i] = key[s[i]];
-    printf("¼ÓÃÜºóµÄÂëÎª£º");
-    run(i, 1, l) printf("%s", ans[i]);
+    printf("åŠ å¯†åçš„ç ä¸ºï¼š");
+    FILE* fi = fopen("e:/æƒ³è¯´çš„è¯.txt", "wt");
+    run(i, 1, l) printf("%s", ans[i]), fprintf(fi, "%s", ans[i]);
+    fclose(fi), fi = nullptr;
 }
