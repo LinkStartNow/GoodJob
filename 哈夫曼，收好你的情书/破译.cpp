@@ -61,8 +61,9 @@ int main()
 //    puts("«Î ‰»Î∆∆“Î¬Î£∫");
 //    run(i, 1, tot) printf("%s", po[i]);
     fclose(f);
-    f = nullptr;
     run(i, 1, tot) t.add(po[i]);
     t.yyds();
+    f = fopen("e:/∑≠“Î∫Û.txt", "wt");
+    fprintf(f, "%s", res + 1);
     printf("%s", res + 1);
 }
