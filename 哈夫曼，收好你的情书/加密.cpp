@@ -88,7 +88,7 @@ void showmi(tp t) // 展示破译码，并处理key
 
 int main()
 {
-    printf("请输入要加密的内容（直接一行输入，不要擅自回车哦！！！）:");
+    printf("请输入要加密的内容（直接一行输入，最后结束输入再回车哦！！！）:");
     gets(s + 1);
     l = strlen(s + 1);
     run(i, 1, l) mp[s[i]] ++;
