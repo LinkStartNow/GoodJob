@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="YuApp">
+      <UniqueIdentifier>{cea6cd1f-2b73-4506-ba53-50523c7cea21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{810f86cf-98ad-46e7-b379-4dda85a4ad79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BackGround">
+      <UniqueIdentifier>{0aa1b68e-c36d-4f8d-9553-850e783a416a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FriendBox">
+      <UniqueIdentifier>{5899287e-2858-4325-9531-427502c1236c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{3ddd808c-6337-4244-a3cd-805c821bc687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFrame">
+      <UniqueIdentifier>{5a29651b-7c19-4cfb-9650-c8f1d362e93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BoxHome">
+      <UniqueIdentifier>{13d69b74-81a8-4d98-aff1-377cdb3d9375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TargetBox">
+      <UniqueIdentifier>{76c3e407-2073-4591-a79c-92ecd6a1ba02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoneBox">
+      <UniqueIdentifier>{d0d6e41b-50cd-471c-b43d-6913761b2255}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Config\Config.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BackGround\BackGround.h">
+      <Filter>BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FriendBox\Friend.h">
+      <Filter>FriendBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FriendBox\FriendBox.h">
+      <Filter>FriendBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameFrame\GameFrame.h">
+      <Filter>GameFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Player\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YuApp\YuApp.h">
+      <Filter>YuApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BoxHome\Box .h">
+      <Filter>BoxHome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BoxHome\BoxHome.h">
+      <Filter>BoxHome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TargetBox\Target.h">
+      <Filter>TargetBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TargetBox\TargetBox.h">
+      <Filter>TargetBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StoneBox\Stone.h">
+      <Filter>StoneBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StoneBox\StoneBox.h">
+      <Filter>StoneBox</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\BackGround\BackGround.cpp">
+      <Filter>BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FriendBox\Friend.cpp">
+      <Filter>FriendBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FriendBox\FriendBox.cpp">
+      <Filter>FriendBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameFrame\main.cpp">
+      <Filter>GameFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Player\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YuApp\YuApp.cpp">
+      <Filter>YuApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Config\Config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BoxHome\Box .cpp">
+      <Filter>BoxHome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BoxHome\BoxHome.cpp">
+      <Filter>BoxHome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TargetBox\Target.cpp">
+      <Filter>TargetBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TargetBox\TargetBox.cpp">
+      <Filter>TargetBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StoneBox\Stone.cpp">
+      <Filter>StoneBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StoneBox\StoneBox.cpp">
+      <Filter>StoneBox</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

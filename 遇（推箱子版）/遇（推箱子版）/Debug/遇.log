@@ -1,0 +1,18 @@
+﻿  Box .cpp
+  BoxHome.cpp
+  Config.cpp
+  Friend.cpp
+  FriendBox.cpp
+  Player.cpp
+E:\桌面\遇\遇\Player\Player.cpp(110,14): warning C4018: “>”: 有符号/无符号不匹配
+E:\桌面\遇\遇\Player\Player.cpp(124,14): warning C4018: “>”: 有符号/无符号不匹配
+E:\桌面\遇\遇\Player\Player.cpp(138,14): warning C4018: “>”: 有符号/无符号不匹配
+E:\桌面\遇\遇\Player\Player.cpp(152,14): warning C4018: “>”: 有符号/无符号不匹配
+  Stone.cpp
+  StoneBox.cpp
+  Target.cpp
+  TargetBox.cpp
+  YuApp.cpp
+E:\桌面\遇\遇\YuApp\YuApp.cpp(156,11): warning C4018: “>=”: 有符号/无符号不匹配
+  正在生成代码...
+  遇.vcxproj -> E:\桌面\遇\遇\Debug\遇.exe

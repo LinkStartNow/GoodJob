@@ -1,4 +1,9 @@
-﻿  Player.cpp
+﻿  BackGround.cpp
+  Config.cpp
+  Friend.cpp
+  FriendBox.cpp
+  main.cpp
+  Player.cpp
   YuApp.cpp
   正在生成代码...
-  遇.vcxproj -> E:\桌面\遇\Debug\遇.exe
+  遇.vcxproj -> F:\GitHub仓库管理\GoodJob\遇\Debug\遇.exe
