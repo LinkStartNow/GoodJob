@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QApplication, QWidget, QMessageBox
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtGui import QIcon, QPixmap
 from PySide2.QtCore import QSize
+import Mainlog
 import webbrowser
 
 class Item(QWidget):
@@ -10,8 +11,10 @@ class Item(QWidget):
         self.ui = QUiLoader().load('item.ui')
 
         self.ui.picbutton.clicked.connect(self.GoToBuy)
+
+        Mainlog.sig.ItemUpdate.connect(lambda x: x.Update())
         # self.ui.show()
-    
+
     def SetInfo(self, id = 0, url = '', price = '', size = (), info = '', location = '', pic = '', picurl = ''):
         self.id = id
         self.url = url

@@ -8,6 +8,99 @@ import os
 import time
 from Sql import Sql
 
+def ThreadSpider(page, spider):
+    urlbase = 'https://hrb.58.com/hezu/pn{}/'
+
+    with open('CacheUrl.txt', 'a+', encoding='utf8') as f:
+        f.seek(0)
+        t = f.read().split()
+
+    ssr = ''
+
+    for id in range(1, page + 1):
+        url = urlbase.format(id)
+        # 如果未访问过，则访问
+        if url not in t:
+            st = time.time()
+            ssr = spider.Visit(url)
+            ed = time.time()
+            print(f'vis cost {ed - st}')
+            with open('CacheUrl.txt', 'a', encoding='utf8') as f:
+                f.write(url + ' ')
+        else:
+        # 否则直接进入下一轮
+            continue
+            
+        # 清洗获得的html文件提取有效信息
+        st = time.time()
+        res = spider.Clear(ssr)
+        ed = time.time()
+        print(f'Clear Cost {ed - st}s')
+
+
+        # 读取缓存中的图片地址，判断图片是否已经下载，避免重复下载
+        # 为了避免文件不存在而不能读报错，这里用写+打开
+        with open('Cache.txt', 'a+', encoding='utf8') as f:
+            # 为了不覆盖内容，用追加的写
+            # 由于追加打开，于是光标在最后，没法读，先要让光标回到开头
+            f.seek(0)
+            t = f.read().split('♒')
+
+            if t == ['']:
+                t = []
+            else:
+                t = map(lambda x: x.split('❤')[0], t)
+
+        for it in res:
+            # 如果是新图片，则添加到新id
+            if it[0] not in t:
+                sig.NewItemFind.emit(it[1], it[5], it[3], it[2], it[4], it[0])
+        # 睡眠5秒防止被网站发现是爬虫
+        time.sleep(5)
+    sig.VisitComplete.emit()
+
+# 下载所有可以下载的图片
+def ThreadDownLoadPic(its, spider):
+    # 不存在src文件夹则创建一个
+    if not os.path.exists('src'):
+        os.mkdir('src')
+
+    # 读取缓存
+    with open('Cache.txt', 'a+', encoding='utf8') as f:
+        f.seek(0)
+        t = f.read().split('♒')
+        # t用来获取图片url列表，用于判断是否已经下载
+        if t == ['']:
+            t = []
+        else:
+            t = list(map(lambda x: x.split('❤')[0], t))
+
+    for it in its:
+        # 如果某个item的图片未下载则去下载
+        if it.picurl not in t: 
+            # print(it.picurl)
+            
+            # 下载图片到相应路径下
+            spider.DownLoad(it.picurl, f'src/{it.id}.jpg')
+
+            sig.ItemUpdate.emit(it)
+
+            # 将已经下载的图片url追加到Cache文件中
+            with open('Cache.txt', 'a', encoding='utf8') as f:
+                '''
+                    写入格式为：
+                        1.图片url（用来判断唯一）
+                        2.id
+                        3.详情链接
+                        4.价格
+                        5.大小
+                        6.介绍
+                        7.地理位置
+                '''
+                f.write(f'{it.picurl}❤{it.id}❤{it.url}❤{it.price}❤{it.size}❤{it.info}❤{it.location}♒')
+    print('yes')
+    sig.DownLoadComplete.emit()
+
 class Kernel:
     def __init__(self) -> None:
         # 主窗口
@@ -37,6 +130,7 @@ class Kernel:
         sig.Filtrate.connect(self.Filtrate)
         sig.GetFiltrate.connect(self.GetFiltrate)
         sig.CheckSqlEmpty.connect(self.CheckSqlEmpty)
+        sig.VisitComplete.connect(self.VisitComplete)
 
         self.ThreadId = 0 # 给每个线程的id
         self.ThreadDict = {} # 管理线程的字典
@@ -44,6 +138,14 @@ class Kernel:
 
         # sleep(1)
     
+    def VisitComplete(self):
+        # 下载图片
+        st = time.time()
+        self.DownLodaThread = Thread(target=ThreadDownLoadPic, args=(self.mainlog.ItemDict.values(), self.spider))
+        self.DownLodaThread.start()
+        ed = time.time()
+        print(f'Download cost {ed - st}')
+
     def CheckSqlEmpty(self):
         self.filtrater.SqlEmpty = self.sql.Empty()
 
@@ -103,7 +205,6 @@ class Kernel:
             '提示',
             '获取资源成功！'
         )
-        self.mainlog.RefreshItem()
 
         # 爬虫恢复空闲状态
         self.spiderflag = False
@@ -138,109 +239,13 @@ class Kernel:
             return
         self.spiderflag = True
         print('GetSource')
-        # 通知爬虫开始工作
+        # 通知大家爬虫开始工作
         sig.SpiderWorking.emit()
-        
-        urlbase = 'https://hrb.58.com/hezu/pn{}/'
 
-        with open('CacheUrl.txt', 'a+', encoding='utf8') as f:
-            f.seek(0)
-            t = f.read().split()
-    
-        ssr = self.spider.html
+        self.SpiderThread = Thread(target=ThreadSpider, args=(page, self.spider))
+        self.SpiderThread.start()
 
-        for id in range(1, page + 1):
-            url = urlbase.format(id)
-            # 如果未访问过，则访问
-            if url not in t:
-                st = time.time()
-                ssr = self.spider.Visit(url)
-                ed = time.time()
-                print(f'vis cost {ed - st}')
-                with open('CacheUrl.txt', 'a', encoding='utf8') as f:
-                    f.write(url + ' ')
-            else:
-            # 否则直接进入下一轮
-                continue
-                
-            # 清洗获得的html文件提取有效信息
-            st = time.time()
-            self.res = self.spider.Clear(ssr)
-            ed = time.time()
-            print(f'Clear Cost {ed - st}s')
-
-
-            # 读取缓存中的图片地址，判断图片是否已经下载，避免重复下载
-            # 为了避免文件不存在而不能读报错，这里用写+打开
-            with open('Cache.txt', 'a+', encoding='utf8') as f:
-                # 为了不覆盖内容，用追加的写
-                # 由于追加打开，于是光标在最后，没法读，先要让光标回到开头
-                f.seek(0)
-                t = f.read().split('♒')
-
-                if t == ['']:
-                    t = []
-                else:
-                    t = map(lambda x: x.split('❤')[0], t)
-
-            for it in self.res:
-                # 如果是新图片，则添加到新id
-                if it[0] not in t:
-                    self.mainlog.AddItem(it[1], it[5], it[3], it[2], it[4], it[0])
-            # 睡眠5秒防止被网站发现是爬虫
-            time.sleep(5)
-        
-        # 下载图片
-        st = time.time()
-        self.ThreadDict[self.ThreadId] = Thread(target=self.ThreadDownLoadPic, args=(self.ThreadId,))
-        self.ThreadDict[self.ThreadId].start()
-        self.ThreadId += 1
-        ed = time.time()
-        print(f'Download cost {ed - st}')
-        # 重新加载所有item的图片
-        self.mainlog.RefreshItem()
         print('spider over')
-
-    # 下载所有可以下载的图片
-    def ThreadDownLoadPic(self, tid):
-        # 不存在src文件夹则创建一个
-        if not os.path.exists('src'):
-            os.mkdir('src')
-
-        # 读取缓存
-        with open('Cache.txt', 'a+', encoding='utf8') as f:
-            f.seek(0)
-            t = f.read().split('♒')
-            # t用来获取图片url列表，用于判断是否已经下载
-            if t == ['']:
-                t = []
-            else:
-                t = list(map(lambda x: x.split('❤')[0], t))
-
-        for it in self.mainlog.ItemDict.values():
-            # 如果某个item的图片未下载则去下载
-            if it.picurl not in t: 
-                # print(it.picurl)
-                
-                # 下载图片到相应路径下
-                self.spider.DownLoad(it.picurl, f'src/{it.id}.jpg')
-
-                # 将已经下载的图片url追加到Cache文件中
-                with open('Cache.txt', 'a', encoding='utf8') as f:
-                    '''
-                        写入格式为：
-                            1.图片url（用来判断唯一）
-                            2.id
-                            3.详情链接
-                            4.价格
-                            5.大小
-                            6.介绍
-                            7.地理位置
-                    '''
-                    f.write(f'{it.picurl}❤{it.id}❤{it.url}❤{it.price}❤{it.size}❤{it.info}❤{it.location}♒')
-        print('yes')
-        sig.DownLoadComplete.emit()
-        self.ThreadDict.pop(tid)
 
 if __name__ == '__main__':
     app = QApplication()

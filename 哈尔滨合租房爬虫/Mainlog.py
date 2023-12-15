@@ -17,6 +17,9 @@ class MySignals(QObject):
     SpiderWorking = Signal()
     SpiderEnd = Signal()
     CheckSqlEmpty = Signal()
+    VisitComplete = Signal()
+    NewItemFind = Signal(str, str, tuple, str, str, str)
+    ItemUpdate = Signal(Item)
 
 sig = MySignals()
 
@@ -48,6 +51,7 @@ class Mainlog:
         # 缓存读取出一个数据就让主线程创建一个item
         sig.AddLoadItem.connect(self.AddLoadItem)
         sig.SpiderWorking.connect(self.SpiderWorking)
+        sig.NewItemFind.connect(self.NewItemFind)
 
         # 创建一个线程用于加载缓存，避免影响用户体验
         self.t = Thread(target=self.Thread_init)
@@ -55,6 +59,9 @@ class Mainlog:
 
         self.ui.show()
     
+    def NewItemFind(self, url, price, size, info, location, picurl):
+        self.AddItem(url, price, size, info, location, picurl)
+
     def GetPage(self) -> int:
         return int(self.ui.comboBox_Chose_page.currentText())
 
