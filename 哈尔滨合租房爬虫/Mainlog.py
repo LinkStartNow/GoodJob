@@ -6,20 +6,45 @@ from threading import Thread, Lock
 from time import sleep
 
 class MySignals(QObject):
+    # 按下获取按钮后，信号通知Kernel调用获取方法
     GetSource = Signal()
-    PutItem = Signal(int)
+
+    # 每从缓存中读取到一个对象信息后，就通知mainlog生成一个item对象
     AddLoadItem = Signal(int, str, str, tuple, str, str, str)
+
+    # 当缓存加载完毕后，告知Kernel缓存加载完毕
     CacheLoadSuccess = Signal()
+
+    # 当下载线程完成后，通知Kernel下载完成
     DownLoadComplete = Signal()
+
+    # 每创建一个item对象，通知kernel将信息录入数据库
     AddItemToSql = Signal(int, str)
+
+    # 当按下了筛选键，通知kernel显示筛选窗口
     Filtrate = Signal()
+
+    # 当在筛选框选择好条件进行筛选时，将筛选条件发送给kernel处理
     GetFiltrate = Signal(str, str, str, str)
+
+    # 爬虫开始工作，通知筛选器将爬虫工作状态设置成忙碌
     SpiderWorking = Signal()
+
+    # 爬虫工作完毕，通知筛选器将爬虫工作状态设置成空闲
     SpiderEnd = Signal()
+
+    # 在筛选框中点击筛选后，通知kernel查询数据库是否为空
     CheckSqlEmpty = Signal()
+
+    # 爬虫的html文件获取并分析完成后通知kernel打开下载图片线程
     VisitComplete = Signal()
+
+    # 在子线程分析的时候每分析出一条item的信息通知mainlog创造一个item
     NewItemFind = Signal(str, str, tuple, str, str, str)
+
+    # 每下载成功一个图片，通知这个图片对应的item去更新信息，重新加载图片
     ItemUpdate = Signal(Item)
+
 
 sig = MySignals()
 
@@ -42,6 +67,7 @@ class Mainlog:
         k.sort(key=lambda x: int(x))
         self.PageList = set(k)
 
+        # 添加页数选项
         self.ui.comboBox_Chose_page.addItems(k)
 
         # 绑定信号与槽
@@ -77,11 +103,6 @@ class Mainlog:
         print('clear')
         for it in self.ItemDict.values():
             it.ui.hide()
-            # self.ui.verticalLayout.removeWidget(it.ui)
-            # it.ui.deleteLater()
-            # print(it.id)
-        # self.PutItem(1)
-        # self.PutItem(2)
         
 
     # 展示所有item
@@ -112,9 +133,6 @@ class Mainlog:
             if t == ['']:
                 print('Cache Load Successfully!')
                 return
-            
-            # print(t[0].split('❤')[1])
-            # print(len(t[0].split('❤')))
 
             # 获得id
             l1 = map(lambda x: x.split('❤')[1], t[:-1])
@@ -140,11 +158,7 @@ class Mainlog:
         for i in range(len(l1)):
             sig.AddLoadItem.emit(l1[i], l2[i], l3[i], l4[i], l5[i], l6[i], f'src/{l1[i]}.jpg')
 
-            # ssr = self.ItemDict[l1[i]] = Item()
-            # ssr.SetInfo(l1[i], l2[i], l3[i], l4[i], l5[i], l6[i], f'src/{l1[i]}.jpg')
         self.ItemCnt = max(l1)
-        # self.lock.release()
-        # self.PutItem(1)
 
     # 重新加载信息
     def RefreshItem(self):

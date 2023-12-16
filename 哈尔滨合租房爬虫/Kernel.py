@@ -123,7 +123,6 @@ class Kernel:
 
         # 绑定信号
         sig.GetSource.connect(self.GetSource)
-        sig.PutItem.connect(self.PutItem)
         sig.CacheLoadSuccess.connect(self.CacheLoadSuccess)
         sig.DownLoadComplete.connect(self.DownLoadComplete)
         sig.AddItemToSql.connect(self.AddItemToSql)

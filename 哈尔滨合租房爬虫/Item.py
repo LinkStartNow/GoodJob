@@ -13,7 +13,6 @@ class Item(QWidget):
         self.ui.picbutton.clicked.connect(self.GoToBuy)
 
         Mainlog.sig.ItemUpdate.connect(lambda x: x.Update())
-        # self.ui.show()
 
     def SetInfo(self, id = 0, url = '', price = '', size = (), info = '', location = '', pic = '', picurl = ''):
         self.id = id
@@ -24,7 +23,6 @@ class Item(QWidget):
         self.location = location
         self.pic = pic
         self.picurl = picurl
-        # self.Update()
     
     def Update(self):
         # print(233)

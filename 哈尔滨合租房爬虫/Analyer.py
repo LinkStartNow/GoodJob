@@ -26,7 +26,7 @@ def Clear(html, r):
                     r'<p class="infor">(.*?)</p>.*?'
                     r'<div class="money">.*?<b class="strongbox">(.*?)</b>'
                      ,re.DOTALL)
-    # p = re.compile(r'<li  class="house-cell realverify".*?<div class="img-list">.*?<img lazy_src="(.*?)"', re.DOTALL)
+    
     r.SetPattern(p)
     r.Analy(t)
     # print(r.res[0])

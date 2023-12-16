@@ -43,12 +43,9 @@ class Spider:
                         r'<p class="infor">(.*?)</p>.*?'
                         r'<div class="money">.*?<b class="strongbox">(.*?)</b>'
                         ,re.DOTALL)
-        # p = re.compile(r'<li  class="house-cell realverify".*?<div class="img-list">.*?<img lazy_src="(.*?)"', re.DOTALL)
         r.SetPattern(p)
         r.Analy(html)
-        # print(r.res[0])
-        # for i in range(5):
-        #     print('*' * 5)
+    
         for li in r.res:
             z = [0] * 6
 
